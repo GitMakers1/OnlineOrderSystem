@@ -27,6 +27,7 @@ exports.createMenu = async function (req, res) {
     imageid: 1
   }
 
+  console.log(menus);
   connection.query(
     'INSERT INTO menus SET ?',
     menus,
@@ -39,7 +40,7 @@ exports.createMenu = async function (req, res) {
       } else {
         res.status(200).json({
           code: 200,
-          success: 'Profile created successfully'
+          success: 'menu created successfully'
         })
       }
     }

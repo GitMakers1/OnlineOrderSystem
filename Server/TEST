@@ -46,13 +46,16 @@ CREATE TABLE menus (
     `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
     `profilesID` MEDIUMINT,
     `type` int(1) NOT NULL,
-    `start_time` DATETIME DEFAULT NULL,
-    `end_time` DATETIME DEFAULT NULL,
+    `start_time` TIME DEFAULT NULL,
+    `end_time` TIME DEFAULT NULL,
      `imageid` int(111) DEFAULT 0 NOT NULL,
     PRIMARY KEY (menuid),
     FOREIGN KEY (imageid) REFERENCES images(id),
     FOREIGN KEY (profilesID) REFERENCES profiles(id)
 ); 
+
+select DATE_FORMAT(start_time, "%H:%i") AS ONLY_HOUR_MINUTE from menus; 
+select DATE_FORMAT(end_time, "%H:%i") AS ONLY_HOUR_MINUTE from menus; 
 
 CREATE TABLE menuCategory (
     `menuid` int NOT NULL UNIQUE,
