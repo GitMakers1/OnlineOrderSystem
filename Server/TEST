@@ -13,7 +13,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE images (
   id int(111) NOT NULL AUTO_INCREMENT,
-  image longblob NOT NULL,
+  image TEXT NOT NULL,
   created_at datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

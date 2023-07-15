@@ -1,5 +1,6 @@
 var express = require('express')
 const path = require('path')
+const fileUpload = require('express-fileupload');
 
 var login = require('./routes/loginroutes')
 var profile = require('./routes/profileroutes')
@@ -10,6 +11,14 @@ var images = require('./routes/imagesHandle')
 
 var bodyParser = require('body-parser')
 var app = express()
+app.use(
+  fileUpload({
+      limits: {
+          fileSize: 10000000,
+      },
+      abortOnLimit: true,
+  })
+);
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(function (req, res, next) {
@@ -43,6 +52,7 @@ router.post('/createDish', menus.createDish)
 
 router.post('/createOrder',orders.createOrder)
 router.post('/createImage',images.createImage)
+router.post('/getimage',images.getimage)
 
 app.use('/api', router)
 app.listen(4000)
