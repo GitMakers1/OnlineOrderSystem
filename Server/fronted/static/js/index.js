@@ -6,6 +6,8 @@ import Login from "./views/Login.js";
 import register from "./views/register.js";
 import createMenu from "./views/createMenu.js";
 import uploadimage from "./views/uploadimage.js";
+import createProfile from "./views/createProfile.js";
+
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
 const getParams = match => {
@@ -31,7 +33,9 @@ const router = async () => {
         { path: "/settings", view: Settings },
         { path: "/register", view: register },
         {path: "/createMenu", view: createMenu},
-        {path: "/uploadImage", view: uploadimage}
+        {path: "/uploadImage", view: uploadimage},
+        {path: "/createProfile", view: createProfile}
+
 
 
     ];

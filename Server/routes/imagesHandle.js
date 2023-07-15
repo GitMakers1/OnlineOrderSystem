@@ -15,12 +15,19 @@ connection.connect(function (err) {
   }
 });
 
+exports.createImage = async function(req,res){
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).json({
+      code: 400,
+      failed: 'No file uploaded',
+    });
+  }
 
-exports.createImage = async function (req, res) {
 
-  const { image } = req.files; // Access the "image" file from req.files
-  if (!image) return res.Status(400);
-  if (!/^image/.test(image.mimetype)) return res.sendStatus(400);
+
+  const file = req.files.file;
+
+  if (!/^image/.test(file.mimetype)) return res.sendStatus(400);
 
   let highestID;
   const query = 'SELECT MAX(id) AS highestID from images';
@@ -38,36 +45,37 @@ exports.createImage = async function (req, res) {
     const destination =
       '/home/serverweb/Desktop/OnlineOrderSystem/Server/fronted/static/upload/' +
       newimagename;
-  
-    image.mv(destination, function (err) {
+
+
+  file.mv(destination, function (err) {
+    if (err) {
+      console.error('Error uploading file:', err);
+      return res.status(500).json({
+        code: 500,
+        failed: 'Failed to upload file',
+      });
+    }
+
+    const saveddes = `static/upload/${newimagename}`;
+    // Save the image path to the SQL database
+    const saveImagePathQuery = 'INSERT INTO images (image) VALUES (?)';
+    connection.query(saveImagePathQuery, [saveddes], function (err, result) {
       if (err) {
         console.error(err);
         return res.status(500).json({
           code: 500,
-          failed: 'failed to upload image',
+          failed: 'error saving image path to database',
         });
       }
-  
-      const saveddes = `static/upload/${newimagename}`;
-      // Save the image path to the SQL database
-      const saveImagePathQuery = 'INSERT INTO images (image) VALUES (?)';
-      connection.query(saveImagePathQuery, [saveddes], function (err, result) {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({
-            code: 500,
-            failed: 'error saving image path to database',
-          });
-        }
-        res.status(200).json({
-          code: 200,
-          success: 'image saved successfully',
-        });
+      res.status(200).json({
+        code: 200,
+        imageid:highestID +1,
+        success: 'image saved successfully',
       });
     });
   });
-  
-};
+})
+}
 
 
 exports.getimage = async function (req, res) {
@@ -94,6 +102,7 @@ connection.query(query, [imageid], function (err, result) {
 
   return res.status(200).json({
     code: 200,
+    id: imageid,
     path: path,
   });
 })

@@ -17,6 +17,31 @@ export default class extends AbsVIew {
   }
   afterRender() {
 
+    const fileInput = document.getElementById('imageFile');
+
+    const uploadBtn = document.getElementById('uploadBtn');
+    uploadBtn.addEventListener('click', function () {
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+    
+      fetch('/api/createImage', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('File uploaded successfully:', data);
+        })
+        .catch(error => {
+          console.error('Error uploading file:', error);
+        });
+    });
+    
+
+
+
+
     const getimageBtn = document.getElementById('getimage')
 
     getimageBtn.addEventListener('click',() =>
