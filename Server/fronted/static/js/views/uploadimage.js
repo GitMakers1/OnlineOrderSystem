@@ -17,15 +17,16 @@ export default class extends AbsVIew {
   }
   afterRender() {
 
-    const fileInput = document.getElementById('imageFile');
-
+    const fileInput = document.getElementById('image');
     const uploadBtn = document.getElementById('uploadBtn');
+    
     uploadBtn.addEventListener('click', function () {
       const file = fileInput.files[0];
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('image', file);
     
-      fetch('/api/createImage', {
+      console.log(formData);
+      fetch('/api/uploadimage', {
         method: 'POST',
         body: formData,
       })

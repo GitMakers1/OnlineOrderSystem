@@ -48,9 +48,9 @@ exports.register = async function (req, res) {
 exports.login = async function (req, res) {
     var account = req.body.account
     var password = req.body.password
+    
     if (account.includes('@')) var Qstring = 'SELECT * FROM users WHERE email = ?'
     else var Qstring = 'SELECT * FROM users WHERE account = ?'
-    console.log(Qstring)
 
     connection.query(Qstring, [account], async function (error, results, fields) {
         if (error) {

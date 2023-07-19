@@ -1,18 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+</head>
 <body>
-    <h1>Create profile</h1>
-    <p> name for profile</p>
-    <input id="name" type="text">
-    <p>profile id</p>
-    <input type="text" id="usersid" readonly value="2">
-    <p>type of profile</p>
-    <select name="type" id="type">
-        <option value="0">normal</option>
-        <option value="1">resturents</option>
-        <option value="2">organizsion</option>
-    </select>
-    <p>start serve time</p>
-    <p>image pick for menu</p>
-    <input type="file" id="image" />
+        <form name="createProfile" action="" method="POST" enctype="multipart/form-data">
+                <p>profile name:</p>
+                <input type="text" name="name">
+                <p>user id</p>
+                <input type="text" name="userid" id="userid">
+                <p>profile type 1-3</p>
+                <input type="text" name="type" id="type" value="1">
+                <p>image</p>
+                <input type="file" name="image">
+                <button type="submit">Submit</button>
+              </form>
+</body>
 
-    <button id="createProfileBtn">create Profile</button>
-</body> 
+</html>
