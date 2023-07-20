@@ -31,7 +31,7 @@ CREATE TABLE users (
 
 CREATE TABLE profiles (
  `id` MEDIUMINT NOT NULL AUTO_INCREMENT, 
- `usersid` MEDIUMINT NOT NULL,
+ `usersid` MEDIUMINT NOT NULL UNIQUE,
  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
  `last_update` TIMESTAMP DEFAULT current_timestamp() ON UPDATE current_timestamp(),
  `imageid` int(111) DEFAULT 0 NOT NULL,

@@ -51,7 +51,7 @@ exports.createMenu = async function (req, res) {
       menuid: req.body.menuid,
       name: req.body.name,
       type: req.body.type,
-      imageid: 1
+      imageid: req.body.imageid
     }
 
     connection.query(
@@ -66,7 +66,7 @@ exports.createMenu = async function (req, res) {
         } else {
           res.status(200).json({
             code: 200,
-            success: 'Profile created successfully'
+            success: 'Category created successfully'
           })
         }
       }
@@ -80,7 +80,7 @@ exports.createMenu = async function (req, res) {
       name: req.body.name,
       description: req.body.description,
       type: req.body.type,
-      imageid: 1,
+      imageid: req.body.imageid,
       price:req.body.price
     }
 
@@ -96,7 +96,7 @@ exports.createMenu = async function (req, res) {
         } else {
           res.status(200).json({
             code: 200,
-            success: 'Profile created successfully'
+            success: 'Dish created successfully'
           })
         }
       }
