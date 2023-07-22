@@ -1,21 +1,7 @@
-var mysql = require('mysql')
+var sql = require('../models/sql.js')
 const bcrypt = require('bcrypt')
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '741852',
-  database: 'OnlineOrderSystem'
-})
 
-connection.connect(function (err) {
-  if (!err) {
-    console.log('Database is connected...')
-  } else {
-    console.log('Error connecting database...')
-  }
-})
 
-const saltRounds = 10 // Define the saltRounds variable
 
 exports.createMenu = async function (req, res) {
   var menus = {
@@ -27,24 +13,15 @@ exports.createMenu = async function (req, res) {
     imageid: 1
   }
 
-  console.log(menus);
-  connection.query(
-    'INSERT INTO menus SET ?',
-    menus,
-    function (error, results, fields) {
-      if (error) {
-        res.status(400).json({
-          code: 400,
-          failed: error
-        })
-      } else {
-        res.status(200).json({
-          code: 200,
-          success: 'menu created successfully'
-        })
-      }
-    }
-  )
+
+  try {
+    const info = await sql.insert('INSERT INTO menus SET ?', menus);
+
+    res.status(200).json({ success: true, message: 'Menu created successfully', data: info });
+  } catch (error) {
+
+    res.status(500).json({ success: false, message: 'Error creating menu', error: error.message });
+  }
 }
   exports.createCategory = async function (req, res) {
     var category = {
@@ -54,23 +31,15 @@ exports.createMenu = async function (req, res) {
       imageid: req.body.imageid
     }
 
-    connection.query(
-      'INSERT INTO menuCategory SET ?',
-      category,
-      function (error, results, fields) {
-        if (error) {
-          res.status(400).json({
-            code: 400,
-            failed: error
-          })
-        } else {
-          res.status(200).json({
-            code: 200,
-            success: 'Category created successfully'
-          })
-        }
-      }
-    )
+
+    try {
+      const info = await sql.insert('INSERT INTO menuCategory SET ?', category);
+  
+      res.status(200).json({ success: true, message: 'Menu created successfully', data: info });
+    } catch (error) {
+  
+      res.status(500).json({ success: false, message: 'Error creating menu', error: error.message });
+    }
   }
 
   exports.createDish = async function (req, res) {
@@ -84,23 +53,15 @@ exports.createMenu = async function (req, res) {
       price:req.body.price
     }
 
-    connection.query(
-      'INSERT INTO dishs SET ?',
-      Dish,
-      function (error, results, fields) {
-        if (error) {
-          res.status(400).json({
-            code: 400,
-            failed: error
-          })
-        } else {
-          res.status(200).json({
-            code: 200,
-            success: 'Dish created successfully'
-          })
-        }
-      }
-    )
+    try {
+      const info = await sql.insert('INSERT INTO dishs SET ?', Dish);
+  
+      res.status(200).json({ success: true, message: 'Menu created successfully', data: info });
+    } catch (error) {
+  
+      res.status(500).json({ success: false, message: 'Error creating menu', error: error.message });
+    }
+    
   }
 
 

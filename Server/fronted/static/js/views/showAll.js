@@ -7,46 +7,23 @@ export default class extends AbsVIew {
   }
 
   async getHtml () {
-    const response = await fetch('/static/createProfile.html') // Adjust the path to login.html if necessary
+    const response = await fetch('/static/showAll.html') // Adjust the path to login.html if necessary
     const html = await response.text()
     return html
   }
   afterRender () {
-    document.forms.createProfile.addEventListener('submit', e => {
-      e.preventDefault()
-      let form = e.target
-      const formdata = new FormData(form)
-      fetch('http://localhost:4000/api/uploadimage', {
-        method: 'POST',
-        body: formdata
-      })
-      .then(response => response.json())
-      .then(data => {
-        formdata.append('imageid',data.imageid);
-
-        console.log(formdata);
-        fetch('http://localhost:4000/api/createProfile', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(Object.fromEntries(formdata))
-      }
-      )
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
+    console.log('page loaded')
+    let userid = 1
+    let look = 'userid'
+    fetch(`http://localhost:4000/api/getUser?userid=${userid}&look=${look}`, {
+      method: 'GET'
+    })
+      .then(response => response.text())
+      .then(content => {
+        console.log('Response Content:', content) // Log the response content as a string
       })
       .catch(error => {
-        console.error('Error uploading file:', data);
-      });
-        
+        console.error('Error:', error)
       })
-      .catch(error => {
-        console.error('Error uploading file:', data);
-      });
-    }
-    );
-
   }
 }

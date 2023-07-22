@@ -6,11 +6,12 @@ var payment = require('./routes/paymentsroutes')
 var menus = require('./routes/menuroutes')
 var orders = require('./routes/orderroutes')
 var images = require('./routes/imagesHandle')
+var gets = require('./routes/getRoutes')
 const myMulter = require('./models/mullterHandle.js')
 var bodyParser = require('body-parser')
-var cors = require('cors');
+var cors = require('cors')
 var app = express()
-app.use( cors() )
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(function (req, res, next) {
@@ -22,17 +23,12 @@ app.use(function (req, res, next) {
   next()
 })
 
-
-app.use('/static',express.static(path.resolve(__dirname,"fronted","static")));
-
-// all data-back to main page
-app.get('/*', function (req, res) {
-  res.sendFile(path.resolve(__dirname,"fronted","index.html"));
-}) //route to handle user registration
-
+app.use('/static', express.static(path.resolve(__dirname, 'fronted', 'static')))
 var router = express.Router() // test route
 
+router.get('/getUser', gets.getUser)
 
+// all data-back to main page
 
 router.post('/register', login.register)
 router.post('/login', login.login)
@@ -42,15 +38,16 @@ router.post('/createMenu', menus.createMenu)
 router.post('/createCategory', menus.createCategory)
 router.post('/createDish', menus.createDish)
 
-router.post('/createOrder',orders.createOrder)
-router.post('/createImage',images.createImage)
-router.post('/getimage',images.getimage)
+router.post('/createOrder', orders.createOrder)
+router.post('/createImage', images.createImage)
+router.post('/getimage', images.getimage)
 
 //multer:
 
-
-
-router.post("/uploadImage", myMulter.upload.single("image"),images.uploadimage);
+router.post('/uploadImage', myMulter.upload.single('image'), images.uploadimage)
 
 app.use('/api', router)
+app.get('/*', function (req, res) {
+  res.sendFile(path.resolve(__dirname, 'fronted', 'index.html'))
+})
 app.listen(4000)
